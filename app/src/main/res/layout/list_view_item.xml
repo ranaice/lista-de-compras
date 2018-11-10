@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ImageView
+            android:id="@+id/imgProductPhoto"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            tools:srcCompat="@tools:sample/avatars"
+            android:contentDescription="@string/image_produto"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+            android:id="@+id/txtProductName"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text=""
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:gravity="center"
+            app:layout_constraintStart_toEndOf="@+id/imgProductPhoto"
+            app:layout_constraintEnd_toStartOf="@+id/txtProductPrice"
+            app:layout_constraintTop_toTopOf="@+id/imgProductPhoto"
+            app:layout_constraintBottom_toBottomOf="@+id/imgProductPhoto"/>
+
+    <TextView
+            android:id="@+id/txtProductQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/_4_qtd"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+            android:id="@+id/txtProductPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/r_10_50"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtProductQuantity"/>
+</android.support.constraint.ConstraintLayout>
