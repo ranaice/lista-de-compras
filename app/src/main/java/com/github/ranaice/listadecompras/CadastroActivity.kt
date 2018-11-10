@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_cadastro.*
+import org.jetbrains.anko.db.insert
+import org.jetbrains.anko.toast
 
 class CadastroActivity : AppCompatActivity() {
 
@@ -23,11 +25,24 @@ class CadastroActivity : AppCompatActivity() {
             val price = txtProductPriceRegister.text.toString()
 
             if (name.isNotBlank() && quantity.isNotBlank() && price.isNotBlank()) {
-                val prod = Product(name, quantity.toInt(), price.toDouble(), imageBitmap)
-                globalProducts.add(prod)
-                txtProductNameRegister.text.clear()
-                txtProductQuantityRegister.text.clear()
-                txtProductPriceRegister.text.clear()
+
+                database.use {
+                    val productId = insert("products",
+                        "name" to name,
+                        "quantity" to quantity,
+                        "price" to price.toDouble(),
+                        "photo" to imageBitmap?.toByteArray())
+
+                    if (productId != -1L) {
+                        toast("Produto inserido com sucesso")
+                        txtProductNameRegister.text.clear()
+                        txtProductQuantityRegister.text.clear()
+                        txtProductPriceRegister.text.clear()
+                    }
+                    else {
+                        toast("Erro ao inserir no bando de dados")
+                    }
+                }
             } else {
                 txtProductNameRegister.error =
                         if (txtProductNameRegister.text.isEmpty()) "Preencha o name do produto" else null
