@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.parseList
 import org.jetbrains.anko.db.rowParser
 import org.jetbrains.anko.db.select
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -25,7 +27,19 @@ class MainActivity : AppCompatActivity() {
         }
 
         listViewProducts.setOnItemLongClickListener { _, _, position, _ ->
-            productAdapter.remove(productAdapter.getItem(position))
+
+            // get the specific item
+            val product = productAdapter.getItem(position)
+
+            if (product != null) {
+                // Remove from adapter
+                productAdapter.remove(product)
+
+                // Remove from DB
+                deleteProduct(product.id)
+
+                toast("Item ${product.id} deletado com sucesso")
+            }
 
             true
         }
@@ -46,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                     Product(id, name, quantity, price, photo?.toBitmap())
                 }
 
-                // Mapping rows to a list pf products
+                // Mapping rows to a list pf prodrigoanaice\.xmlroducts
                 val productList = parseList(parser)
 
                 val adapter = listViewProducts.adapter as ProductAdapter
@@ -58,6 +72,12 @@ class MainActivity : AppCompatActivity() {
                 val numberFormat = NumberFormat.getCurrencyInstance(Locale("pt", "br"))
                 txtTotalPrice.text = "TOTAL: ${numberFormat.format(sum)}"
             }
+        }
+    }
+
+    private fun deleteProduct(productId: Int) {
+        database.use {
+            delete("products", "id = {id}", "id" to productId)
         }
     }
 }
